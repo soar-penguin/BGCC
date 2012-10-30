@@ -39,6 +39,14 @@ BGCC（百度通用通信组件）是一个跨语言、跨平台、面向对象�
         <td>BGCC使用Python语言的自动编译脚本</td>
     </tr>
     <tr>
+        <td>doc</td>
+        <td>参考文档目录</td>
+    </tr>
+    <tr>
+        <td>license.txt</td>
+        <td>license文件</td>
+    </tr>
+    <tr>
         <td>Makefile</td>
         <td>BGCC在Linux平台下自动编译脚本</td>
     </tr>
@@ -49,6 +57,10 @@ BGCC（百度通用通信组件）是一个跨语言、跨平台、面向对象�
     <tr>
         <td>set_vs_var.bat </td>
         <td>VS2003环境变量设置脚本</td>
+    </tr>
+    <tr>
+        <td>vimplugin</td>
+        <td>vim bidl插件目录</td>
     </tr>
 </table>
 
