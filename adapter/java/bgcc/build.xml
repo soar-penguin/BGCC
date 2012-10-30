@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="bgcc" default="build" basedir=".">
+<property name="src" value="bgcc"/>
+<property name="dest" value="../output/classes"/>
+<property name="bgcc_jar" value="../../../output/lib/bgcc.jar"/>
+<target name="init">
+    <echo message="init ...."/>
+    <mkdir dir="${dest}"/>
+</target>
+<target name="compile" depends="init">
+    <echo message="compiling ....."/>
+    <javac srcdir="${src}" destdir="${dest}" includeantruntime="false" encoding="iso-8859-1"/>
+</target>
+<target name="build" depends="compile">
+   <jar jarfile="${bgcc_jar}" basedir="${dest}"/>
+</target>
+<target name="clean">
+   <echo message="cleaning ..."/>
+   <delete dir="${dest}" />
+   <delete file="${bgcc_jar}" />
+</target>
+</project>

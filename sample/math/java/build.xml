@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="samples" default="build" basedir=".">
+<property name="bgcc_jar" value="../../../output/lib/bgcc.jar"/>
+<property name="samples_src" value="../output-java/" />
+<property name="samples_classes" value="./classes"/>
+<property name="src" value="./src"/>
+<target name="init">
+    <echo message="init ...."/>
+    <mkdir dir="${samples_classes}"/>
+</target>
+<target name="compile" depends="init">
+    <echo message="compiling ....."/>
+    <javac srcdir="${samples_src}" destdir="${samples_classes}" classpath="${bgcc_jar}" includeantruntime="false"/>
+    <javac srcdir="${src}" destdir="${samples_classes}" classpath="${bgcc_jar};${samples_classes}" includeantruntime="false"/>
+</target>
+<target name="build" depends="compile">
+    <jar jarfile="Client.jar" basedir="${samples_classes}" >
+        <manifest>
+            <attribute name="Main-Class" value="Client" />
+            <attribute name="Class-path" value="${bgcc_jar}" />
+        </manifest>
+    </jar>
+	<jar jarfile="Server.jar" basedir="${samples_classes}" >
+        <manifest>
+            <attribute name="Main-Class" value="Server" />
+            <attribute name="Class-path" value="${bgcc_jar}" />
+        </manifest>
+    </jar>
+</target>
+
+<target name="clean">
+   <echo message="cleaning ..."/>
+   <delete dir="${samples_classes}" />
+   <delete file="Server.jar" />
+   <delete file="Client.jar" />
+   <delete file="bgcc.log" />
+</target>
+<target name="rerun" depends="clean">
+   <ant target="clean" />
+</target>
+</project>

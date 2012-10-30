@@ -1,0 +1,7 @@
+namespace common {
+	struct Address {
+		string city;
+		string road;
+		int32 number;
+	}
+}

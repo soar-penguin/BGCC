@@ -1,0 +1,171 @@
+include "address.bidl"
+
+namespace math {
+
+	typedef boolean b_t;
+
+	const sequence<boolean> ss1 = [true, false, false];
+	const sequence<int32> ss2 = [1, 2, 3];
+	const sequence<string> ss3 = ["first", "second"];
+	const sequence<float> ss4 = [1.1, 2.2, 3.3];
+
+	const sequence<set<int32>> tt1 = [<1>, <2>, <3>];
+
+	const set<boolean> sk1 = <true, false, false>;
+	const set<int32> sk2 = <1, 2, 3>;
+	const set<string> sk3 = <"first", "second">;
+	const set<float> sk4 = <1.1, 2.2, 3.3>;
+
+	const set<sequence<string>> tt2 = <["first"], ["second", "third"]>;
+
+	const map<int32, string> sm1 = {1: "first"};
+
+	const map<sequence<int32>, set<string>> tt3 =
+		{
+			[1]: <"first">,
+			[2]: <"second">
+		};
+
+
+	const b_t be_used = false;
+	const boolean be_health = true;
+
+	typedef int8 i8_t;
+	const i8_t  i8  = 8;
+
+	typedef int16 i16_t;
+	const i16_t i16 = 16; 
+
+	typedef int32 i32_t;
+	const i32_t i32 = 32; 
+
+	typedef int64 i64_t;
+	const i64_t i64 = 64;
+
+	typedef string s_t;
+	const s_t str = "hello";
+
+	typedef binary bin_t;
+	const bin_t bin = "data";
+
+	typedef float f_t;
+	const f_t f = 3.3;
+
+	struct Person {
+		string name;
+		int32 age;
+	}
+
+	typedef Person MyPerson;
+
+	enum Color {
+		RED,
+		GREEN,
+		BLUE
+	}
+
+	typedef Color MyColor;
+
+	enum Gender {
+		MALE,
+		FEMALE
+	}
+
+	typedef sequence<string> Children;
+
+	struct Citizen {
+		string name;
+		int32 age;
+		Gender gender;
+		common.Address address;
+		Children children;
+		set<i32_t> xxx;
+		map<int8, boolean> kkk;
+	}
+
+	enum AddResult {
+		E_SUCCESS,
+		E_OVERFLOW,
+		E_DOWNFLOW
+	}
+
+  	class Math {
+		void ping();
+  		AddResult add(int32 a, int32 b, [out] int32 sum);
+
+		Citizen test_citizen(Citizen ins, [out] Citizen outs, [all] Citizen alls);
+
+		boolean get_boolean();
+		int8 get_int8();
+		int16 get_int16();
+		int32 get_int32();
+		int64 get_int64();
+		float get_float();
+		string get_string();
+		binary get_binary();
+		Color get_color();
+
+		sequence<int32> get_sequence();
+		set<string> get_string_set();
+		map<int64, string> get_int_str_map();
+		sequence<set<boolean>> get_bool_set_sequence();
+		Person get_person();
+		sequence<Person> get_persons();
+		set<Person> get_persons2();
+		map<Person, Person> get_persons3();
+		sequence<set<Person>> get_persons4();
+
+		void send_bool(b_t value);
+		void send_int8(i8_t value);
+		void send_int16(i16_t value);
+  		void send_int32(i32_t value);
+		void send_int64(i64_t value);
+		void send_float(f_t value);
+		void send_string(s_t value);
+		void send_binary(bin_t value);
+		void send_color(Color color);
+	  	void send_person(MyPerson person);
+		void send_int32_sequence(sequence<int32> numbers);
+		void send_persons(sequence<Person> persons);
+		void send_persons2(set<Person> persons);
+		void send_int32_set_seq(sequence<set<int32>> xx);
+		void send_persons3(map<Person, Person> persons);
+		void send_person_vec_set(set<sequence<Person>> xxx);
+
+		void out_boolean([out] boolean value);
+		void out_int8([out] int8 value);
+		void out_int16([out] int16 value);
+		void out_int32([out] int32 value);
+		void out_int64([out] int64 value);
+		void out_float([out] float value);
+		void out_string([out] string value);
+		void out_binary([out] binary value);
+		void out_person([out] Person person);
+		void out_seq([out] sequence<int32> xxx);
+		void out_string_set([out] set<string> xxx);
+		void out_int16_float_map([out] map<int16, float> xxx);
+		void out_int_vec_set([out] set<sequence<int32>> xxx);
+
+		void all_boolean([all] boolean value);
+		void all_int8([all] int8 value);
+		void all_int16([all] int16 value);
+		void all_int32([all] int32 value);
+		void all_int64([all] int64 value);
+		void all_float([all] float value);
+		void all_string([all] string value);
+		void all_binary([all] binary value);
+		void all_int32_seq([all] sequence<int32> value);
+		void all_person([all] Person value);
+		void all_int32_set([all] set<int32> value);
+		void all_person_seq([all] sequence<Person> value);
+		void all_int32_person_map([all] map<int32, Person> value);
+
+
+		void color_out_all([all] MyColor color1, [out] MyColor color2);
+
+		sequence<MyColor> color_xx(
+			[in]  set<MyColor> color1,
+			[out] sequence<MyColor> color2,
+			[all] map<MyColor, MyColor> color3);
+	}
+}

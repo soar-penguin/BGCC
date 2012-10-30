@@ -1,0 +1,170 @@
+/* for flex */
+TOKEN_IN ::= 'in'
+TOKEN_ALL ::= 'all'
+TOKEN_OUT ::= 'out'
+TOKEN_NAMESPACE ::= 'namespace'
+TOKEN_INCLUDE ::= 'include'
+TOKEN_CONST ::= 'const'
+TOKEN_IDENTIFIER ::= [a-zA-Z_][\.a-zA-Z_0-9]*
+TOKEN_EQ ::= '='
+TOKEN_SEMICOLON ::= ';'
+TOKEN_BOOLEAN ::= 'boolean'
+TOKEN_INT8 ::= 'int8'
+TOKEN_INT16 ::= 'int16'
+TOKEN_INT32 ::= 'int32'
+TOKEN_INT64 ::= 'int64'
+TOKEN_FLOAT ::= 'float'
+TOKEN_DOUBLE ::= 'double'
+TOKEN_STRING ::= 'string'
+TOKEN_BINARY ::= 'binary'
+TOKEN_TYPEDEF ::= 'typedef'
+TOKEN_MAP ::= 'map'
+TOKEN_SET ::= 'set'
+TOKEN_SEQUENCE ::= 'sequence'
+TOKEN_ENUM ::= 'enum'
+TOKEN_STRUCT ::= 'struct'
+TOKEN_CLASS ::= 'class'
+TOKEN_VOID ::= 'void'
+TOKEN_LESS ::= '<'
+TOKEN_MORE ::= '>'
+TOKEN_COMMA ::= ','
+TOKEN_LEFT_CURLY_BRACKET ::= '{'
+TOKEN_RIGHT_CURLY_BRACKET ::= '}'
+TOKEN_LEFT_SQUARE_BRACKET ::= '['
+TOKEN_RIGHT_SQUARE_BRACKET ::= ']'
+TOKEN_LEFT_BRACKET ::= '('
+TOKEN_RIGHT_BRACKET ::= ')'
+
+TOKEN_INTEGER ::= [+|-]?[0-9]+
+TOKEN_DECIMAL ::= [+|-]?[0-9]+(\.[0-9]+)?((E|e)[+|-]?[0-9]+)?
+
+TOKEN_BOOLVAL ::=
+	'true'
+	| 'TRUE'
+	| 'false'
+	| 'FALSE'
+
+TOKEN_LITERAL ::= ('"'[^"]*'"')|("'"[^']*"'")
+
+/* for bison */
+document ::=
+	include_clause_list definition_clause_list
+	
+include_clause_list ::=
+	/* Пе */
+	| include_clause_list include_clause
+
+include_clause ::=
+	TOKEN_INCLUDE TOKEN_LITERAL
+
+definition_clause_list ::=
+	/* Пе */
+	| definition_clause_list definition_clause
+	
+definition_clause ::=
+	const_clause
+	| typedef_clause
+	| enum_clause
+	| struct_clause
+	| class_clause
+	| namespace_clause
+	
+const_clause ::=
+	TOKEN_CONST const_type TOKEN_IDENTIFIER TOKEN_EQ const_value TOKEN_SEMICOLON
+	
+const_type ::=
+	TOKEN_IDENTIFIER
+	| basic_type
+	
+
+basic_type ::=
+	TOKEN_BOOLEAN
+	| TOKEN_INT8
+	| TOKEN_INT16
+	| TOKEN_INT32 
+	| TOKEN_INT64 
+	| TOKEN_FLOAT
+	| TOKEN_DOUBLE
+	| TOKEN_STRING
+	| TOKEN_BINARY
+	
+const_value ::=
+	TOKEN_BOOLVAL
+	| TOKEN_INTEGER
+	| TOKEN_DECIMAL
+	| TOKEN_LITERAL
+
+typedef_clause ::=
+	TOKEN_TYPEDEF data_type TOKEN_IDENTIFIER TOKEN_SEMICOLON
+	
+data_type ::= 
+	TOKEN_IDENTIFIER
+	| basic_type
+	| container_type
+	
+container_type ::= 
+	map_type
+	| set_type
+	| sequence_type
+	
+map_type ::=
+	TOKEN_MAP TOKEN_LESS data_type TOKEN_COMMA data_type TOKEN_MORE
+
+set_type ::=
+	TOKEN_SET TOKEN_LESS data_type TOKEN_MORE
+
+sequence_type ::=
+	TOKEN_SEQUENCE TOKEN_LESS data_type TOKEN_MORE
+
+enum_clause ::=
+	TOKEN_ENUM TOKEN_IDENTIFIER TOKEN_LEFT_CURLY_BRACKET enum_field_list TOKEN_RIGHT_CURLY_BRACKET
+	
+enum_field_list ::=
+	TOKEN_IDENTIFIER
+	| TOKEN_IDENTIFIER TOKEN_EQ TOKEN_INTEGER
+	| enum_field_list TOKEN_COMMA TOKEN_IDENTIFIER
+	| enum_field_list TOKEN_COMMA TOKEN_IDENTIFIER TOKEN_EQ TOKEN_INTEGER
+
+struct_clause ::=
+	TOKEN_STRUCT TOKEN_IDENTIFIER TOKEN_LEFT_CURLY_BRACKET struct_field_list TOKEN_RIGHT_CURLY_BRACKET
+
+struct_field_list ::=
+	struct_filed
+	| struct_field_list struct_filed 
+	
+struct_filed ::=
+	data_type TOKEN_IDENTIFIER TOKEN_SEMICOLON 
+	
+class_clause ::=
+	TOKEN_CLASS TOKEN_IDENTIFIER TOKEN_LEFT_CURLY_BRACKET function_list TOKEN_RIGHT_CURLY_BRACKET
+	
+function_list ::=
+	function
+	| function_list function
+
+function ::=
+	function_type TOKEN_IDENTIFIER TOKEN_LEFT_BRACKET function_field_list TOKEN_RIGHT_BRACKET TOKEN_SEMICOLON
+	
+function_type ::=
+	data_type
+	| TOKEN_VOID
+	
+function_field_list ::=
+	/*Пе*/
+	| function_field
+	| function_field_list TOKEN_COMMA function_field
+
+function_field ::=
+	data_type TOKEN_IDENTIFIER
+	| function_field_direction data_type TOKEN_IDENTIFIER
+
+function_field_direction ::=
+	TOKEN_LEFT_SQUARE_BRACKET TOKEN_IN TOKEN_RIGHT_SQUARE_BRACKET
+	| TOKEN_LEFT_SQUARE_BRACKET TOKEN_OUT TOKEN_RIGHT_SQUARE_BRACKET
+	| TOKEN_LEFT_SQUARE_BRACKET TOKEN_ALL TOKEN_RIGHT_SQUARE_BRACKET
+	
+namespace_clause ::=
+	TOKEN_NAMESPACE TOKEN_IDENTIFIER TOKEN_LEFT_CURLY_BRACKET definition_clause_list TOKEN_RIGHT_CURLY_BRACKET
+
+
+
